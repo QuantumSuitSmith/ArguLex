@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
     if (tryButton) {
       tryButton.addEventListener("click", function () {
-        window.location.href = "create-account.html"; // Ensure this path is correct
+        window.location.href = "createaccount.html"; // Ensure this path is correct
       });
     } else {
       console.log("Button not found!");
