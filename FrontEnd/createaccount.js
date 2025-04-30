@@ -1,6 +1,5 @@
 document.getElementById("signup-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent the form from submitting the usual way
-    // You can handle form data submission here
+    event.preventDefault(); 
     alert("Account created successfully!");
   });
   
