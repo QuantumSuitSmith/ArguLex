@@ -1,6 +1,6 @@
-
 import webbrowser
 import urllib.parse
+import time
 import speech_recognition as sr
 import win32com.client
 from transformers import pipeline
@@ -48,11 +48,25 @@ legal_topics = {
 # Load text generation model
 text_gen = pipeline("text2text-generation", model="google/flan-t5-base")
 
+# Track last topic
 last_topic = None
+
+# Check if query is legal
+def is_legal_query(query):
+    keywords = [
+        "fir", "section", "ipc", "crpc", "law", "legal", "bail", "arrest", "court",
+        "police", "warrant", "punishment", "rights", "act", "petition", "judge", "trial", "judgment"
+    ]
+    return any(keyword in query.lower() for keyword in keywords)
 
 # Generate answer
 def generate_answer(query):
     global last_topic
+
+    # If clearly non-legal, reject politely
+    if not is_legal_query(query):
+        say("Sorry, I can only help with legal questions. Please ask a legal query.")
+        return
 
     # Check known legal topics
     for key in legal_topics.keys():
@@ -75,14 +89,14 @@ def generate_answer(query):
             say("Could you please tell me which topic you want more details about?")
         return
 
-    # Not matched: Search Google directly
-    say("I couldn't find an exact match in the legal topics. Let me search Google for you.")
-    encoded_search = urllib.parse.quote_plus(query)
-    webbrowser.open(f"https://www.google.com/search?q={encoded_search}")
+    # Default legal answer using model
+    prompt = f"Answer this legal question in detail with examples: {query}\nContext: {legal_topics}"
+    result = text_gen(prompt, max_new_tokens=200)[0]["generated_text"]
+    print("Answer:", result)
+    say(result)
 
 # Handle basic commands
 def handle_basic_commands(query):
-
     if query.startswith("search for") or query.startswith("google"):
         search_term = query.replace("search for", "").replace("google", "").strip()
         if search_term:
@@ -92,16 +106,14 @@ def handle_basic_commands(query):
         else:
             say("Please tell me what you'd like to search for.")
         return True
-    
-    elif "Thank you" in query or "exit" in query or "stop" in query:
+
+    elif "thank you" in query or "exit" in query or "stop" in query:
         say("Alright Cyril, ArguLex is signing off. Wishing you a great day ahead.")
         exit()
     return False
 
 # Main loop
 if __name__ == "__main__":
-    say("Good day, Cyril. ArguLex voice assistant is now active and prepared to assist you with your legal inquiries.")
-    
     while True:
         query = take_command()
 
