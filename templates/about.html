@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}ArguLex - About{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 mb-4">About Legal Chatbot</h1>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Our Mission</h5>
+                    <p class="card-text">
+                        Legal Chatbot aims to make legal assistance more accessible and efficient through
+                        advanced AI technology. We provide instant document analysis and legal guidance
+                        to help users better understand their legal documents and questions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Features</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Document Analysis:</strong> Upload and analyze legal documents with AI-powered insights
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Legal Chat:</strong> Get instant answers to your legal questions
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Professional Mode:</strong> Advanced analysis for legal professionals
+                        </li>
+                        <li class="list-group-item">
+                            <strong>General Mode:</strong> Simplified explanations for everyday legal questions
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">How It Works</h5>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item">Choose between professional or general chat mode</li>
+                        <li class="list-group-item">Upload documents or ask questions directly</li>
+                        <li class="list-group-item">Receive instant analysis and answers</li>
+                        <li class="list-group-item">Download reports and save chat history</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('selection') }}" class="btn btn-primary btn-lg">
+                    Start Using Legal Chatbot
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %} 
