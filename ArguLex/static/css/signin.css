@@ -1,0 +1,154 @@
+:root {
+    --bg: #ffffff;
+    --text: #000000;
+    --card: #f0f0f0;
+    --input-bg: #e0e0e0;
+    --placeholder: #555;
+    --btn-bg: #000;
+    --btn-text: #fff;
+    --error: #ff4444;
+    --success: #00C851;
+}
+
+[data-theme="dark"] {
+    --bg: #000000;
+    --text: #ffffff;
+    --card: #1a1a1a;
+    --input-bg: #333;
+    --placeholder: #aaa;
+    --btn-bg: #fff;
+    --btn-text: #000;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--card);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.right-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 20px;
+}
+
+.signin-container {
+    background-color: var(--card);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-bg);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--text);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+button:hover {
+    transform: scale(1.02);
+    background-color: var(--text);
+    color: var(--bg);
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-link a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.alert.error {
+    background-color: var(--error);
+    color: white;
+}
+
+.alert.success {
+    background-color: var(--success);
+    color: white;
+}
+
+@media (max-width: 480px) {
+    .signin-container {
+        padding: 20px;
+    }
+} 
