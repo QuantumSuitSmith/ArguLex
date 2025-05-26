@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}ArguLex - Document Analysis{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/document_chat.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="document-container">
+    <!-- Left Panel: Document Upload and Analysis -->
+    <div class="document-panel">
+        <div class="panel-header">
+            <h2>Document Analysis</h2>
+            <div class="upload-section">
+                <label for="file-upload" class="upload-btn">
+                    <i class="fas fa-file-pdf"></i> Upload PDF
+                </label>
+                <input type="file" id="file-upload" accept=".pdf" style="display: none;">
+            </div>
+        </div>
+        
+        <div class="document-content" id="documentContent">
+            <div class="placeholder">
+                <i class="fas fa-file-pdf"></i>
+                <p>Upload a legal document to begin analysis</p>
+                <p class="sub-text">Supported format: PDF</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel: Document Chat -->
+    <div class="chat-panel">
+        <div class="panel-header">
+            <h2>Document Assistant</h2>
+            <div class="mode-toggle">
+                <button id="modeToggle" class="mode-btn">
+                    <i class="fas fa-moon"></i> Toggle Mode
+                </button>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- Welcome message -->
+            <div class="message bot">
+                <div class="message-content">
+                    <h3>Welcome to Document Analysis</h3>
+                    <p>I can help you analyze legal documents and answer questions about them. Here's what I can do:</p>
+                    <ul>
+                        <li>Analyze uploaded legal documents</li>
+                        <li>Answer specific questions about the document content</li>
+                        <li>Extract key information and details</li>
+                    </ul>
+                    <p class="instructions">To get started:</p>
+                    <ol>
+                        <li>Upload a PDF document using the button on the left</li>
+                        <li>Wait for the document analysis to complete</li>
+                        <li>Ask questions about the document content</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <form id="chatForm" class="chat-form">
+                <div class="input-group">
+                    <textarea id="userInput" placeholder="Ask a question about the document..." rows="3"></textarea>
+                    <button type="submit" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="input-hint">
+                    <p>Type your question and press Enter to send</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Pass chatbot type to JavaScript
+    window.chatbotType = "document";
+</script>
+<script src="{{ url_for('static', filename='js/document_chat.js') }}"></script>
+{% endblock %} 

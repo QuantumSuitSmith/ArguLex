@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}ArguLex - Welcome{% endblock %}
+
+{% block content %}
+<div class="intro-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="display-4 fw-bold text-primary mb-4 animate__animated animate__fadeInDown">Welcome to ArguLex</h1>
+            <p class="lead mb-4 animate__animated animate__fadeInUp">Your AI-powered legal assistant for intelligent document analysis and legal research.</p>
+            <div class="hero-buttons animate__animated animate__fadeInUp">
+                <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </a>
+                <a href="{{ url_for('signup') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Sign Up
+                </a>
+            </div>
+        </div>
+        <div class="hero-image animate__animated animate__fadeInRight">
+            <img src="{{ url_for('static', filename='images/legal-ai.svg') }}" alt="Legal AI" class="img-fluid">
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <h2 class="text-center mb-5 animate__animated animate__fadeIn">Key Features</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card animate__animated animate__fadeInUp">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt fa-3x text-primary"></i>
+                    </div>
+                    <h3>Document Analysis</h3>
+                    <p>Upload legal documents for instant analysis and insights</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot fa-3x text-primary"></i>
+                    </div>
+                    <h3>AI-Powered Chat</h3>
+                    <p>Get instant answers to your legal questions</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line fa-3x text-primary"></i>
+                    </div>
+                    <h3>Case Analysis</h3>
+                    <p>Deep insights into legal cases and precedents</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="how-it-works-section">
+        <h2 class="text-center mb-5 animate__animated animate__fadeIn">How It Works</h2>
+        <div class="timeline">
+            <div class="timeline-item animate__animated animate__fadeInLeft">
+                <div class="timeline-number">1</div>
+                <div class="timeline-content">
+                    <h3>Upload Documents</h3>
+                    <p>Upload your legal documents in PDF format for analysis.</p>
+                </div>
+            </div>
+            <div class="timeline-item animate__animated animate__fadeInLeft" style="animation-delay: 0.2s">
+                <div class="timeline-number">2</div>
+                <div class="timeline-content">
+                    <h3>AI Analysis</h3>
+                    <p>Our AI analyzes your documents and provides detailed insights.</p>
+                </div>
+            </div>
+            <div class="timeline-item animate__animated animate__fadeInLeft" style="animation-delay: 0.4s">
+                <div class="timeline-number">3</div>
+                <div class="timeline-content">
+                    <h3>Get Results</h3>
+                    <p>Receive comprehensive analysis and recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials-section">
+        <h2 class="text-center mb-5 animate__animated animate__fadeIn">What Our Users Say</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card animate__animated animate__fadeInUp">
+                    <div class="testimonial-content">
+                        <p>"ArguLex has revolutionized how I handle legal documents. The AI analysis is incredibly accurate."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/user1.jpg') }}" alt="User" class="rounded-circle">
+                        <div>
+                            <h4>John Smith</h4>
+                            <p>Senior Attorney</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                    <div class="testimonial-content">
+                        <p>"The chatbot provides clear, concise answers to complex legal questions. A game-changer!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/user2.jpg') }}" alt="User" class="rounded-circle">
+                        <div>
+                            <h4>Sarah Johnson</h4>
+                            <p>Legal Consultant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                    <div class="testimonial-content">
+                        <p>"The document analysis feature saves me hours of work. Highly recommended for legal professionals."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/user3.jpg') }}" alt="User" class="rounded-circle">
+                        <div>
+                            <h4>Emily Rodriguez</h4>
+                            <p>Law Firm Partner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section text-center animate__animated animate__fadeIn">
+        <h2 class="mb-4">Ready to Transform Your Legal Work?</h2>
+        <p class="lead mb-4">Join thousands of legal professionals using ArguLex</p>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">
+            <i class="fas fa-rocket me-2"></i>Get Started Now
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+    .intro-container {
+        padding: 2rem 0;
+    }
+
+    .hero-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4rem 0;
+        background: linear-gradient(135deg, var(--bs-body-bg) 0%, var(--bs-gray-800) 100%);
+        border-radius: 1rem;
+        margin-bottom: 4rem;
+    }
+
+    .hero-content {
+        flex: 1;
+        padding: 2rem;
+    }
+
+    .hero-image {
+        flex: 1;
+        text-align: center;
+    }
+
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    }
+
+    .feature-card {
+        padding: 2rem;
+        text-align: center;
+        background: var(--bs-body-bg);
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+        margin-bottom: 1.5rem;
+    }
+
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+
+    .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .timeline-number {
+        width: 40px;
+        height: 40px;
+        background: var(--bs-primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    .timeline-content {
+        background: var(--bs-body-bg);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        flex-grow: 1;
+    }
+
+    .testimonial-card {
+        background: var(--bs-body-bg);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
+
+    .testimonial-content {
+        margin-bottom: 1.5rem;
+        font-style: italic;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+    }
+
+    .testimonial-author img {
+        width: 50px;
+        height: 50px;
+        margin-right: 1rem;
+        object-fit: cover;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, var(--bs-primary) 0%, #0056b3 100%);
+        color: white;
+        padding: 4rem 0;
+        border-radius: 1rem;
+        margin-top: 4rem;
+    }
+
+    .cta-section .btn {
+        background: var(--bs-body-bg);
+        color: var(--bs-primary);
+        border: none;
+        padding: 1rem 2rem;
+        font-weight: 500;
+    }
+
+    .cta-section .btn:hover {
+        background: var(--bs-gray-200);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hero-content {
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .timeline-number {
+            margin-bottom: 1rem;
+            margin-right: 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add animation classes when elements come into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+            }
+        });
+    });
+
+    // Observe all cards and sections
+    document.querySelectorAll('.feature-card, .timeline-item, .testimonial-card').forEach((el) => {
+        observer.observe(el);
+    });
+});
+</script>
+{% endblock %} 
