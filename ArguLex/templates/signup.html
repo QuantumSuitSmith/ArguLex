@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}ArguLex - Sign Up{% endblock %}
+
+{% block content %}
+<div class="signup-container">
+    <div class="signup-card animate__animated animate__fadeIn">
+        <div class="signup-header">
+            <h1 class="text-center mb-4">Create Account</h1>
+            <p class="text-center text-muted">Join ArguLex and transform your legal work</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('signup') }}" class="signup-form needs-validation" novalidate>
+            <div class="form-group mb-4">
+                <label for="name" class="form-label">Full Name</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <input type="text" class="form-control" id="name" name="name" required
+                           placeholder="Enter your full name" autocomplete="name">
+                    <div class="invalid-feedback">
+                        Please enter your full name.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="email" class="form-label">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <input type="email" class="form-control" id="email" name="email" required
+                           placeholder="Enter your email" autocomplete="email">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" class="form-control" id="password" name="password" required
+                           placeholder="Create a password" minlength="8" autocomplete="new-password">
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="invalid-feedback">
+                        Password must be at least 8 characters long.
+                    </div>
+                </div>
+                <div class="password-strength mt-2">
+                    <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <small class="text-muted">Password strength: <span id="strength-text">Too weak</span></small>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required
+                           placeholder="Confirm your password" autocomplete="new-password">
+                    <div class="invalid-feedback">
+                        Passwords do not match.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                    <label class="form-check-label" for="terms">
+                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                    </label>
+                    <div class="invalid-feedback">
+                        You must agree to the terms and conditions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Create Account
+                </button>
+            </div>
+        </form>
+
+        <div class="signup-footer text-center mt-4">
+            <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}" class="text-primary">Sign In</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+    .signup-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--bs-body-bg) 0%, var(--bs-gray-800) 100%);
+        padding: 2rem;
+    }
+
+    .signup-card {
+        background: var(--bs-body-bg);
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .signup-header {
+        margin-bottom: 2rem;
+    }
+
+    .signup-header h1 {
+        color: var(--bs-primary);
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group-text {
+        background-color: transparent;
+        border-right: none;
+    }
+
+    .form-control {
+        border-left: none;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: var(--bs-border-color);
+    }
+
+    .input-group:focus-within {
+        box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+        border-radius: 0.25rem;
+    }
+
+    .btn-primary {
+        padding: 0.75rem;
+        font-weight: 500;
+        transition: transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+    }
+
+    .signup-footer {
+        border-top: 1px solid var(--bs-border-color);
+        padding-top: 1.5rem;
+    }
+
+    .signup-footer a {
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .signup-footer a:hover {
+        color: var(--bs-primary) !important;
+    }
+
+    .password-strength .progress {
+        background-color: var(--bs-gray-200);
+        border-radius: 2px;
+    }
+
+    .password-strength .progress-bar {
+        transition: width 0.3s ease;
+    }
+
+    .password-strength .progress-bar.weak {
+        background-color: var(--bs-danger);
+    }
+
+    .password-strength .progress-bar.medium {
+        background-color: var(--bs-warning);
+    }
+
+    .password-strength .progress-bar.strong {
+        background-color: var(--bs-success);
+    }
+
+    .alert {
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 576px) {
+        .signup-card {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Password visibility toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+
+    togglePassword.addEventListener('click', function() {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye');
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+
+    // Password strength indicator
+    const strengthBar = document.querySelector('.progress-bar');
+    const strengthText = document.getElementById('strength-text');
+
+    password.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        let feedback = '';
+
+        // Length check
+        if (password.length >= 8) strength += 25;
+        // Uppercase check
+        if (/[A-Z]/.test(password)) strength += 25;
+        // Lowercase check
+        if (/[a-z]/.test(password)) strength += 25;
+        // Number/Special character check
+        if (/[0-9!@#$%^&*]/.test(password)) strength += 25;
+
+        // Update progress bar
+        strengthBar.style.width = strength + '%';
+        strengthBar.className = 'progress-bar';
+        
+        // Update strength text and color
+        if (strength <= 25) {
+            strengthBar.classList.add('weak');
+            feedback = 'Too weak';
+        } else if (strength <= 50) {
+            strengthBar.classList.add('medium');
+            feedback = 'Weak';
+        } else if (strength <= 75) {
+            strengthBar.classList.add('medium');
+            feedback = 'Medium';
+        } else {
+            strengthBar.classList.add('strong');
+            feedback = 'Strong';
+        }
+        
+        strengthText.textContent = feedback;
+    });
+
+    // Password confirmation check
+    confirmPassword.addEventListener('input', function() {
+        if (this.value !== password.value) {
+            this.setCustomValidity('Passwords do not match');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('.signup-form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+});
+</script>
+{% endblock %} 
