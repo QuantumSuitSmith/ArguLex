@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from typing import Tuple, List, Dict, Optional
 from openai import OpenAI
+from .rag_engine import PDFRAGEngine
 
 # Configure logging
 logging.basicConfig(
@@ -38,10 +39,18 @@ nltk.download("punkt_tab")
 
 class ProfessionalChatbot:
     def __init__(self):
-        logger.info("Initializing ProfessionalChatbot")
+        logger.info("Initializing ProfessionalChatbot with RAG engine")
         try:
             # Initialize OpenAI client for general chat
             self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+            
+            # Initialize PDF RAG engine
+            self.pdf_rag = PDFRAGEngine(
+                model_name="all-MiniLM-L6-v2",
+                chunk_size=800,
+                chunk_overlap=100,
+                storage_path="vector_store/pdfs"
+            )
             
             # Initialize models for PDF analysis
             self.model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -79,8 +88,9 @@ Answer:"""
             self.document_context = None
             self.document_embeddings = None
             self.document_chunks = None
+            self.current_pdf_session = None
             
-            logger.info("ProfessionalChatbot initialized successfully")
+            logger.info("ProfessionalChatbot initialized successfully with RAG engine")
         except Exception as e:
             logger.error(f"Error initializing ProfessionalChatbot: {str(e)}")
             raise
@@ -154,6 +164,15 @@ Answer:"""
                 if not full_text or not full_text.strip():
                     logger.error("No text extracted from PDF")
                     return "❌ Could not extract text from the PDF", None, None
+
+                # Add PDF to RAG system for enhanced querying
+                logger.info("Adding PDF to RAG system")
+                self.current_pdf_session = self.pdf_rag.process_pdf(
+                    pdf_text=full_text,
+                    filename=file.filename,
+                    metadata={'upload_time': datetime.now().isoformat()}
+                )
+                logger.info(f"PDF added to RAG with session: {self.current_pdf_session}")
 
                 logger.info("Report generated successfully")
                 return report, "success", full_text
@@ -373,15 +392,53 @@ Answer:"""
         return list(judge_names)
 
     def query_pdf_after_report(self, question, pdf_text):
-        """Query the PDF document after the initial report."""
+        """Query the PDF document after the initial report using RAG."""
         try:
-            if not pdf_text:
+            if not pdf_text and not self.current_pdf_session:
                 return "❌ No document context available. Please upload a document first."
 
-            # Check if the question is about judges
-            if any(word in question.lower() for word in ['judge', 'judges', 'justice', 'presiding']):
-                # Use a specialized prompt for judge-related questions
-                judge_prompt = f"""You are a legal expert. Given the legal text below, answer the question about the judge(s) in the case. Be specific and precise:
+            # Use RAG engine for enhanced retrieval if session exists
+            if self.current_pdf_session:
+                logger.info(f"Using RAG engine to query PDF session: {self.current_pdf_session}")
+                
+                # Get relevant context using RAG
+                context, sources = self.pdf_rag.get_context(
+                    question,
+                    k=3
+                )
+                
+                if context and context != "No relevant information found.":
+                    # Check if the question is about judges
+                    if any(word in question.lower() for word in ['judge', 'judges', 'justice', 'presiding']):
+                        judge_prompt = f"""You are a legal expert. Given the legal text below, answer the question about the judge(s) in the case. Be specific and precise:
+
+Legal Text:
+{context}
+
+Question:
+{question}
+
+Instructions:
+1. If the judge(s) are mentioned, provide their names and titles
+2. If no judge is found, say "The judge(s) could not be identified in the document"
+3. Be direct and concise
+4. Only use information from the document
+
+Answer:"""
+                        
+                        response = self.llm.predict(judge_prompt)
+                        return f"✅ Answer: {response}"
+                    
+                    # For other questions, use the standard QA chain
+                    response = self.qa_chain.run({"context": context, "question": question, "chat_history": ""})
+                    return f"✅ Answer: {response}"
+            
+            # Fallback to traditional method if RAG not available
+            if pdf_text:
+                logger.info("Falling back to traditional PDF querying")
+                # Check if the question is about judges
+                if any(word in question.lower() for word in ['judge', 'judges', 'justice', 'presiding']):
+                    judge_prompt = f"""You are a legal expert. Given the legal text below, answer the question about the judge(s) in the case. Be specific and precise:
 
 Legal Text:
 {pdf_text}
@@ -396,16 +453,18 @@ Instructions:
 4. Only use information from the document
 
 Answer:"""
+                    
+                    response = self.llm.predict(judge_prompt)
+                    return f"✅ Answer: {response}"
                 
-                response = self.llm.predict(judge_prompt)
+                # For other questions, use the standard QA chain
+                response = self.qa_chain.run({"context": pdf_text, "question": question, "chat_history": ""})
                 return f"✅ Answer: {response}"
             
-            # For other questions, use the standard QA chain
-            response = self.qa_chain.run({"context": pdf_text, "question": question})
-            return f"✅ Answer: {response}"
+            return "❌ No document context available."
             
         except Exception as e:
-            print(f"Error in query_pdf_after_report: {str(e)}")
+            logger.error(f"Error in query_pdf_after_report: {str(e)}")
             return f"❌ Error: {str(e)}"
 
     def get_response(self, message: str, chat_history: List[Dict] = None) -> str:

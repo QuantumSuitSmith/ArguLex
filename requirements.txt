@@ -1,6 +1,7 @@
 # Core Dependencies
 openai>=1.0.0
 langchain>=0.1.0
+langchain-openai>=0.0.2
 PyMuPDF>=1.22.0
 sentence-transformers>=2.2.0
 nltk>=3.8.1
@@ -12,6 +13,9 @@ python-dotenv>=1.0.0
 # Web Framework
 flask>=2.0.0
 werkzeug>=2.0.0
+
+# Database
+pymongo>=4.3.3
 
 # Text Processing
 spacy>=3.5.0
@@ -27,15 +31,12 @@ pytest>=7.0.0
 black>=22.0.0
 flake8>=4.0.0
 
-# Optional Dependencies
+# Production Server
+gunicorn>=20.1.0
+
+# Optional Dependencies for Advanced Features
 # Uncomment if needed
 # torch>=1.13.0
 # transformers>=4.20.0
-# tensorflow>=2.8.0 
-
-# Development Tools
-pytest>=7.0.0
-black>=22.0.0
-flake8>=4.0.0
-
-gunicorn>=20.1.0
+# tensorflow>=2.8.0
+# chromadb>=0.4.0
